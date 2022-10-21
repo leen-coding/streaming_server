@@ -1,0 +1,560 @@
+{% load static %}
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <title>Home</title>
+    <link rel="stylesheet" href="{% static 'assets1/lib/bootstrap/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets1/css/base.css' %}">
+    <link rel="shortcut icon" href="#">
+
+</head>
+
+<link href="{% static 'assets/vendor/swiper/swiper-bundle.min.css' %}" rel="stylesheet">
+<script src="https://cdn.bootcdn.net/ajax/libs/flv.js/1.5.0/flv.min.js"></script>
+<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+
+<body>
+    <script src="{% static 'assets1/lib/jquery/dist/jquery.min.js' %}"></script>
+    <script src="{% static 'assets1/lib/bootstrap/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'assets1/js/common.js' %}"></script>
+
+    <div class="header">
+        <div class="logo fl">IoRT-system</div>
+        <div class="info">
+            <div class="titleEquipment fl">VirtualFranka_manipulator_0</div>
+            <div class="profile dropdown fr">
+                <span class="btn dropdown-toggle" data-toggle="dropdown">
+                    {{user.username}}
+                    <span class="caret">
+                    </span>
+                </span>
+                <ul class="dropdown-menu">
+                    <li><a href="logout">logout</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="content">
+        <div class="aside fl">
+            <ul class="menu list-unstyled">
+                <li><a class="item" href="multi_sensors"><span class="glyphicon glyphicon-th-list"></span> multi_sensors</a>
+                </li>
+                <!-- <li><a class="item" href="humidity"><span class="glyphicon glyphicon-th-list"></span> humidity</a></li> -->
+                {% if user.groups.all.0.name == "admin" %}
+                <li><a class="item" data-toggle="collapse" href="#vrManipulator" role="button" aria-expanded="false"
+                        aria-controls="collapseExample"><span class="glyphicon glyphicon-th-list"></span>
+                        Robot: Virtual Mobile Manipulator
+                        <ol class="collapse" id="vrManipulator">
+                            <a class="item" href="VirtualFranka_manipulator_0"><span
+                                    class="glyphicon glyphicon-th-list"></span>VirtualFranka_manipulator_0</a>
+                        </ol>
+                    </a></li>
+
+                <li><a class="item" data-toggle="collapse" href="#Manipulator" role="button" aria-expanded="false"
+                        aria-controls="collapseExample"><span class="glyphicon glyphicon-th-list"></span>
+                        Robot: Manipulator
+                        <ol class="collapse" id="Manipulator">
+                            <a class="item" href="Mycobot280_manipulator_0"><span
+                                    class="glyphicon glyphicon-th-list"></span> Mycobot280_manipulator_0</a>
+                            <a class="item" href="Mycobot280_manipulator_1"><span
+                                    class="glyphicon glyphicon-th-list"></span> Mycobot280_manipulator_1</a>
+                            <a class="item" href="Mycobot320_manipulator_0"><span
+                                    class="glyphicon glyphicon-th-list"></span> Mycobot320_manipulator_0</a>
+                            <a class="item" href="DobotMagician_manipulator_0"><span
+                                    class="glyphicon glyphicon-th-list"></span> DobotMagician_manipulator_0</a>
+                            <a class="item" href="UR5_manipulator_0"><span class="glyphicon glyphicon-th-list"></span>
+                                UR5_manipulator_0</a>
+                            <a class="item" href="UR10_manipulator_0"><span class="glyphicon glyphicon-th-list"></span>
+                                UR10_manipulator_0</a>
+                            <a class="item" href="Franka_manipulator_0"><span
+                                    class="glyphicon glyphicon-th-list"></span> Franka_manipulator_0</a>
+                            <a class="item" href="Adeept_manipulator_0"><span
+                                    class="glyphicon glyphicon-th-list"></span> Adeept_manipulator_0</a>
+                        </ol>
+                    </a></li>
+
+                <li><a class="item" data-toggle="collapse" href="#Mobile" role="button" aria-expanded="false"
+                        aria-controls="collapseExample"><span class="glyphicon glyphicon-th-list"></span>
+                        Robot: Mobile
+                        <ol class="collapse" id="Mobile">
+                            <a class="item" href="RoboticDog_mobilerobot_0"><span
+                                    class="glyphicon glyphicon-th-list"></span>RoboticDog_mobilerobot_0</a>
+                        </ol>
+                    </a></li>
+
+                <li><a class="item" data-toggle="collapse" href="#Actuator" role="button" aria-expanded="false"
+                        aria-controls="collapseExample"><span class="glyphicon glyphicon-th-list"></span>
+                        Robot: Actuator
+                        <ol class="collapse" id="Actuator">
+                            <a class="item" href="Home_actuator_0"><span
+                                    class="glyphicon glyphicon-th-list"></span>Home_actuator_0</a>
+                        </ol>
+                    </a></li>
+
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+
+    <div class="main">
+        <div class="container-fluid">
+            <div class="row">
+                {% for message in messages %}
+                <h5>{{message}}</h5>
+                {% endfor %}
+                <div class="col-md-6">
+
+                    <div class="btn-group positionControl">
+                        <h3>Current Location (End-Effector Coordinate)</h3>
+                    </div><br>
+
+
+
+z
+                    <div class="btn-group positionControl">
+                    <table class="center" style="width:130%; " border = 2>
+                         <tr>
+                             <td> X(mm): {{old_location.X}}</td>
+                             <td> Y(mm): {{old_location.Y}}</td>
+                             <td> Z(mm): {{old_location.Z}}</td>
+                             <td> Yaw(degree): {{old_location.Yaw}}</td>
+                         </tr>
+                         <tr>
+                             <td> Pitch(degree): {{old_location.Pitch}}</td>
+                             <td> Roll(degree): {{old_location.Roll}}</td>
+                             <td> Gripper(degree): {{old_location.Gripper}}</td>
+                         </tr>
+                        </table>
+
+                        <br>
+                        <h1>Robot Monitor</h1>
+                        <video id="videoElement"></video>
+
+                        <button onclick="playFLV()">PLAY</button>
+                    </div>
+                    <!-- <div class="btn-group positionControl">X(mm): {{old_location.X}}</div>
+                    <div class="btn-group positionControl">Y(mm): {{old_location.Y}}</div><br>
+                    <div class="btn-group positionControl">Z(mm): {{old_location.Z}}</div>
+                    <div class="btn-group positionControl">Yaw(degree): {{old_location.Yaw}}</div>
+                    <div class="btn-group positionControl">Pitch(degree): {{old_location.Pitch}}</div>
+                    <div class="btn-group positionControl">Roll(degree): {{old_location.Roll}}</div><br>
+                    <div class="btn-group positionControl">Gripper(degree): {{old_location.Gripper}}</div> -->
+
+                </div>
+
+                <div class="col-md-6">
+                    <div class="btn-group positionControl">
+                        <h3>New Location (End-Effector Coordinate)</h3>
+                        <input id="arrFlag" type="button" value="Turn on Keyboard Control"/>
+                    </div>
+                    <br><br><br><br><br>
+                    <input id="range_X" type="range" min="-500" max="500" value={{old_location.X}}
+                        oninput="update_X()" />
+                    <svg role="presentation" width="100%" height="10" xmlns="http://www.w3.org/2000/svg">
+                        <rect class="range__tick" x="0%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="10%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="20%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="30%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="40%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="50%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="60%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="70%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="80%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="90%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="100%" y="0" width="1" height="5"></rect>
+                    </svg>
+                    <svg role="presentation" width="100%" height="14" xmlns="http://www.w3.org/2000/svg">
+                        <text class="range__point" x="0%" y="9" text-anchor="start">-500</text>
+                        <text class="range__point" x="10%" y="9" text-anchor="middle">-400</text>
+                        <text class="range__point" x="20%" y="9" text-anchor="middle">-300</text>
+                        <text class="range__point" x="30%" y="9" text-anchor="middle">-200</text>
+                        <text class="range__point" x="40%" y="9" text-anchor="middle">-100</text>
+                        <text class="range__point" x="50%" y="9" text-anchor="middle">0</text>
+                        <text class="range__point" x="60%" y="9" text-anchor="middle">100</text>
+                        <text class="range__point" x="70%" y="9" text-anchor="middle">200</text>
+                        <text class="range__point" x="80%" y="9" text-anchor="middle">300</text>
+                        <text class="range__point" x="90%" y="9" text-anchor="middle">400</text>
+                        <text class="range__point" x="100%" y="9" text-anchor="end">500</text>
+                    </svg>
+
+                    <span style="color:orange">X(mm): </span> <span style="color:orange"
+                        id="value_X">{{old_location.X}}</span><span style="font-style: italic; font-weight: bold; color:red">     (left: q, right: w)</span>
+                    <br><br>
+                    <input id="range_Y" type="range" min="-500" max="500" value={{old_location.Y}}
+                        oninput="update_Y()" />
+                    <svg role="presentation" width="100%" height="10" xmlns="http://www.w3.org/2000/svg">
+                        <rect class="range__tick" x="0%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="10%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="20%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="30%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="40%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="50%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="60%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="70%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="80%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="90%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="100%" y="0" width="1" height="5"></rect>
+                    </svg>
+                    <svg role="presentation" width="100%" height="14" xmlns="http://www.w3.org/2000/svg">
+                        <text class="range__point" x="0%" y="9" text-anchor="start">-500</text>
+                        <text class="range__point" x="10%" y="9" text-anchor="middle">-400</text>
+                        <text class="range__point" x="20%" y="9" text-anchor="middle">-300</text>
+                        <text class="range__point" x="30%" y="9" text-anchor="middle">-200</text>
+                        <text class="range__point" x="40%" y="9" text-anchor="middle">-100</text>
+                        <text class="range__point" x="50%" y="9" text-anchor="middle">0</text>
+                        <text class="range__point" x="60%" y="9" text-anchor="middle">100</text>
+                        <text class="range__point" x="70%" y="9" text-anchor="middle">200</text>
+                        <text class="range__point" x="80%" y="9" text-anchor="middle">300</text>
+                        <text class="range__point" x="90%" y="9" text-anchor="middle">400</text>
+                        <text class="range__point" x="100%" y="9" text-anchor="end">500</text>
+                    </svg>
+
+                    <span style="color:orange">Y(mm): </span> <span style="color:orange"
+                        id="value_Y">{{old_location.Y}}</span><span style="font-style: italic;font-weight: bold; color:red">   (left: e, right: r)</span>
+                    <br><br>
+
+                    <input id="range_Z" type="range" min="-500" max="500" value={{old_location.Z}} oninput="update_Z()">
+                    <svg role="presentation" width="100%" height="10" xmlns="http://www.w3.org/2000/svg">
+                        <rect class="range__tick" x="0%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="10%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="20%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="30%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="40%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="50%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="60%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="70%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="80%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="90%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="100%" y="0" width="1" height="5"></rect>
+                    </svg>
+                    <svg role="presentation" width="100%" height="14" xmlns="http://www.w3.org/2000/svg">
+                        <text class="range__point" x="0%" y="9" text-anchor="start">-500</text>
+                        <text class="range__point" x="10%" y="9" text-anchor="middle">-400</text>
+                        <text class="range__point" x="20%" y="9" text-anchor="middle">-300</text>
+                        <text class="range__point" x="30%" y="9" text-anchor="middle">-200</text>
+                        <text class="range__point" x="40%" y="9" text-anchor="middle">-100</text>
+                        <text class="range__point" x="50%" y="9" text-anchor="middle">0</text>
+                        <text class="range__point" x="60%" y="9" text-anchor="middle">100</text>
+                        <text class="range__point" x="70%" y="9" text-anchor="middle">200</text>
+                        <text class="range__point" x="80%" y="9" text-anchor="middle">300</text>
+                        <text class="range__point" x="90%" y="9" text-anchor="middle">400</text>
+                        <text class="range__point" x="100%" y="9" text-anchor="end">500</text>
+                    </svg>
+                    <span style="color:orange">Z(mm): </span> <span style="color:orange"
+                        id="value_Z">{{old_location.Z}}</span><span style="font-style: italic;font-weight: bold; color:red">   (left: t, right: y)</span>
+
+                    <br><br>
+                    <input id="range_Yaw" type="range" min="0" max="360" value={{old_location.Yaw}}
+                        oninput="update_Yaw()">
+                    <svg role="presentation" width="100%" height="10" xmlns="http://www.w3.org/2000/svg">
+                        <rect class="range__tick" x="0%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="12.5%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="25%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="37.5%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="50%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="62.5%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="75%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="87.5%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="100%" y="0" width="1" height="5"></rect>
+                    </svg>
+                    <svg role="presentation" width="100%" height="14" xmlns="http://www.w3.org/2000/svg">
+                        <text class="range__point" x="0%" y="9" text-anchor="start">0</text>
+                        <text class="range__point" x="12.5%" y="9" text-anchor="middle">45</text>
+                        <text class="range__point" x="25%" y="9" text-anchor="middle">90</text>
+                        <text class="range__point" x="37.5%" y="9" text-anchor="middle">135</text>
+                        <text class="range__point" x="50%" y="9" text-anchor="middle">180</text>
+                        <text class="range__point" x="62.5%" y="9" text-anchor="middle">225</text>
+                        <text class="range__point" x="75%" y="9" text-anchor="middle">270</text>
+                        <text class="range__point" x="87.5%" y="9" text-anchor="middle">315</text>
+                        <text class="range__point" x="100%" y="9" text-anchor="end">360</text>
+
+                    </svg>
+                    <span style="color:orange">Yaw(degree): </span> <span style="color:orange"
+                        id="value_Yaw">{{old_location.Yaw}}</span><span style="font-style: italic;font-weight: bold; color:red">   (left: a, right: s)</span>
+
+                    <br><br>
+                    <input id="range_Pitch" type="range" min="0" max="360" value={{old_location.Pitch}}
+                        oninput="update_Pitch()">
+                    <svg role="presentation" width="100%" height="10" xmlns="http://www.w3.org/2000/svg">
+                        <rect class="range__tick" x="0%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="12.5%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="25%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="37.5%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="50%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="62.5%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="75%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="87.5%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="100%" y="0" width="1" height="5"></rect>
+                    </svg>
+                    <svg role="presentation" width="100%" height="14" xmlns="http://www.w3.org/2000/svg">
+                        <text class="range__point" x="0%" y="9" text-anchor="start">0</text>
+                        <text class="range__point" x="12.5%" y="9" text-anchor="middle">45</text>
+                        <text class="range__point" x="25%" y="9" text-anchor="middle">90</text>
+                        <text class="range__point" x="37.5%" y="9" text-anchor="middle">135</text>
+                        <text class="range__point" x="50%" y="9" text-anchor="middle">180</text>
+                        <text class="range__point" x="62.5%" y="9" text-anchor="middle">225</text>
+                        <text class="range__point" x="75%" y="9" text-anchor="middle">270</text>
+                        <text class="range__point" x="87.5%" y="9" text-anchor="middle">315</text>
+                        <text class="range__point" x="100%" y="9" text-anchor="end">360</text>
+                    </svg>
+                    <span style="color:orange">Pitch(degree): </span> <span style="color:orange"
+                        id="value_Pitch">{{old_location.Pitch}}</span><span style="font-style: italic;font-weight: bold; color:red">   (left: d, right: f)</span>
+
+                    <br><br>
+                    <input id="range_Roll" type="range" min="0" max="360" value={{old_location.Roll}}
+                        oninput="update_Roll()">
+                    <svg role="presentation" width="100%" height="10" xmlns="http://www.w3.org/2000/svg">
+                        <rect class="range__tick" x="0%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="12.5%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="25%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="37.5%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="50%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="62.5%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="75%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="87.5%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="100%" y="0" width="1" height="5"></rect>
+                    </svg>
+                    <svg role="presentation" width="100%" height="14" xmlns="http://www.w3.org/2000/svg">
+                        <text class="range__point" x="0%" y="9" text-anchor="start">0</text>
+                        <text class="range__point" x="12.5%" y="9" text-anchor="middle">45</text>
+                        <text class="range__point" x="25%" y="9" text-anchor="middle">90</text>
+                        <text class="range__point" x="37.5%" y="9" text-anchor="middle">135</text>
+                        <text class="range__point" x="50%" y="9" text-anchor="middle">180</text>
+                        <text class="range__point" x="62.5%" y="9" text-anchor="middle">225</text>
+                        <text class="range__point" x="75%" y="9" text-anchor="middle">270</text>
+                        <text class="range__point" x="87.5%" y="9" text-anchor="middle">315</text>
+                        <text class="range__point" x="100%" y="9" text-anchor="end">360</text>
+                    </svg>
+                    <span style="color:orange">Roll(degree): </span> <span style="color:orange"
+                        id="value_Roll">{{old_location.Roll}}</span><span style="font-style: italic;font-weight: bold; color:red">   (left: g, right: h)</span>
+
+                    <br><br>
+                    <input id="range_Gripper" type="range" min="0" max="360" value={{old_location.Gripper}}
+                        oninput="update_Gripper()">
+                    <svg role="presentation" width="100%" height="10" xmlns="http://www.w3.org/2000/svg">
+                        <rect class="range__tick" x="0%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="12.5%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="25%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="37.5%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="50%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="62.5%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="75%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="87.5%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="100%" y="0" width="1" height="5"></rect>
+                    </svg>
+                    <svg role="presentation" width="100%" height="14" xmlns="http://www.w3.org/2000/svg">
+                        <text class="range__point" x="0%" y="9" text-anchor="start">0</text>
+                        <text class="range__point" x="12.5%" y="9" text-anchor="middle">45</text>
+                        <text class="range__point" x="25%" y="9" text-anchor="middle">90</text>
+                        <text class="range__point" x="37.5%" y="9" text-anchor="middle">135</text>
+                        <text class="range__point" x="50%" y="9" text-anchor="middle">180</text>
+                        <text class="range__point" x="62.5%" y="9" text-anchor="middle">225</text>
+                        <text class="range__point" x="75%" y="9" text-anchor="middle">270</text>
+                        <text class="range__point" x="87.5%" y="9" text-anchor="middle">315</text>
+                        <text class="range__point" x="100%" y="9" text-anchor="end">360</text>
+                    </svg>
+                    <span style="color:orange"> Gripper(degree): </span>
+                    <span style="color:orange" id="value_Gripper">{{old_location.Gripper}}</span><span style="font-style: italic;font-weight: bold; color:red">   (left: z, right: x)</span>
+
+
+
+                        <!-- <form action="VirtualFranka_manipulator_0" method="POST">
+                        {% csrf_token %}
+                        <p>X(mm):</p><input type="text" name="X" /><input type="submit" />   range: (-500, 500)
+                    </form> <br>
+
+                    <form action="VirtualFranka_manipulator_0" method="POST">
+                        {% csrf_token %}
+                        <p>Y(mm):</p><input type="text" name="Y" /><input type="submit" />   range: (-500, 500)
+                    </form> <br>
+
+                    <form action="VirtualFranka_manipulator_0" method="POST">
+                        {% csrf_token %}
+                        <p>Z(mm):</p><input type="text" name="Z" /><input type="submit" />   range: (-500, 500)
+                    </form> <br>
+
+                    <form action="VirtualFranka_manipulator_0" method="POST">
+                        {% csrf_token %}
+                        <p>Yaw:</p><input type="text" name="Yaw" /><input type="submit" />   range: (0, 360)
+                    </form> <br>
+
+                    <form action="VirtualFranka_manipulator_0" method="POST">
+                        {% csrf_token %}
+                        <p>Pitch(degree):</p><input type="text" name="Pitch" /><input type="submit" />   range: (0, 360)
+                    </form> <br>
+
+                    <form action="VirtualFranka_manipulator_0" method="POST">
+                        {% csrf_token %}
+                        <p>Roll(degree):</p><input type="text" name="Roll" /><input type="submit" />   range: (0, 360)
+                    </form> <br>
+
+                    <form action="VirtualFranka_manipulator_0" method="POST">
+                        {% csrf_token %}
+                        <p>Gripper(degree):</p><input type="text" name="Gripper" /><input type="submit" />   range: (0, 360)
+                    </form> -->
+
+
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="btn-group positionControl">
+                        <h3>Current Location (World Coordinate)</h3>
+                    </div><br>
+                    <div class="btn-group positionControl">X(mm): {{old_location.World_Coordinate_X}}</div>
+                    <div class="btn-group positionControl">Y(mm): {{old_location.World_Coordinate_Y}}</div>
+                    <div class="btn-group positionControl">Yaw(degree): {{old_location.World_Coordinate_Yaw}}</div>
+
+                </div>
+
+                <div class="col-md-6">
+                    <div class="btn-group positionControl">
+                        <h3>New Location (World Coordinate)</h3>
+                    </div><br>
+                    <br><br><br><br><br><br>
+                    <input id="range_World_Coordinate_X" type="range" min="-500" max="500"
+                        value={{old_location.World_Coordinate_X}} oninput="update_World_Coordinate_X()">
+                    <svg role="presentation" width="100%" height="10" xmlns="http://www.w3.org/2000/svg">
+                        <rect class="range__tick" x="0%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="10%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="20%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="30%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="40%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="50%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="60%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="70%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="80%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="90%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="100%" y="0" width="1" height="5"></rect>
+                    </svg>
+                    <svg role="presentation" width="100%" height="14" xmlns="http://www.w3.org/2000/svg">
+                        <text class="range__point" x="0%" y="9" text-anchor="start">-500</text>
+                        <text class="range__point" x="10%" y="9" text-anchor="middle">-400</text>
+                        <text class="range__point" x="20%" y="9" text-anchor="middle">-300</text>
+                        <text class="range__point" x="30%" y="9" text-anchor="middle">-200</text>
+                        <text class="range__point" x="40%" y="9" text-anchor="middle">-100</text>
+                        <text class="range__point" x="50%" y="9" text-anchor="middle">0</text>
+                        <text class="range__point" x="60%" y="9" text-anchor="middle">100</text>
+                        <text class="range__point" x="70%" y="9" text-anchor="middle">200</text>
+                        <text class="range__point" x="80%" y="9" text-anchor="middle">300</text>
+                        <text class="range__point" x="90%" y="9" text-anchor="middle">400</text>
+                        <text class="range__point" x="100%" y="9" text-anchor="end">500</text>
+                    </svg>
+                    <span style="color:orange">X(mm): </span> <span style="color:orange"
+                        id="value_World_Coordinate_X">{{old_location.World_Coordinate_X}}</span>
+                        <span style="font-style: italic;font-weight: bold; color:red">   (left: o, right: p)</span>
+                    <br><br>
+                    <input id="range_World_Coordinate_Y" type="range" min="-500" max="500"
+                        value={{old_location.World_Coordinate_Y}} oninput="update_World_Coordinate_Y()">
+                    <svg role="presentation" width="100%" height="10" xmlns="http://www.w3.org/2000/svg">
+                        <rect class="range__tick" x="0%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="10%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="20%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="30%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="40%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="50%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="60%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="70%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="80%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="90%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="100%" y="0" width="1" height="5"></rect>
+                    </svg>
+                    <svg role="presentation" width="100%" height="14" xmlns="http://www.w3.org/2000/svg">
+                        <text class="range__point" x="0%" y="9" text-anchor="start">-500</text>
+                        <text class="range__point" x="10%" y="9" text-anchor="middle">-400</text>
+                        <text class="range__point" x="20%" y="9" text-anchor="middle">-300</text>
+                        <text class="range__point" x="30%" y="9" text-anchor="middle">-200</text>
+                        <text class="range__point" x="40%" y="9" text-anchor="middle">-100</text>
+                        <text class="range__point" x="50%" y="9" text-anchor="middle">0</text>
+                        <text class="range__point" x="60%" y="9" text-anchor="middle">100</text>
+                        <text class="range__point" x="70%" y="9" text-anchor="middle">200</text>
+                        <text class="range__point" x="80%" y="9" text-anchor="middle">300</text>
+                        <text class="range__point" x="90%" y="9" text-anchor="middle">400</text>
+                        <text class="range__point" x="100%" y="9" text-anchor="end">500</text>
+                    </svg>
+                    <span style="color:orange">Y(mm): </span> <span style="color:orange"
+                        id="value_World_Coordinate_Y">{{old_location.World_Coordinate_Y}}</span>
+                        <span style="font-style: italic;font-weight: bold; color:red">   (left: k, right: l)</span>
+                    <br><br>
+                    <input id="range_World_Coordinate_Yaw" type="range" min="0" max="360"
+                        value={{old_location.World_Coordinate_Yaw}} oninput="update_World_Coordinate_Yaw()">
+                    <svg role="presentation" width="100%" height="10" xmlns="http://www.w3.org/2000/svg">
+                        <rect class="range__tick" x="0%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="12.5%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="25%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="37.5%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="50%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="62.5%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="75%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="87.5%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="100%" y="0" width="1" height="5"></rect>
+                    </svg>
+                    <svg role="presentation" width="100%" height="14" xmlns="http://www.w3.org/2000/svg">
+                        <text class="range__point" x="0%" y="9" text-anchor="start">0</text>
+                        <text class="range__point" x="12.5%" y="9" text-anchor="middle">45</text>
+                        <text class="range__point" x="25%" y="9" text-anchor="middle">90</text>
+                        <text class="range__point" x="37.5%" y="9" text-anchor="middle">135</text>
+                        <text class="range__point" x="50%" y="9" text-anchor="middle">180</text>
+                        <text class="range__point" x="62.5%" y="9" text-anchor="middle">225</text>
+                        <text class="range__point" x="75%" y="9" text-anchor="middle">270</text>
+                        <text class="range__point" x="87.5%" y="9" text-anchor="middle">315</text>
+                        <text class="range__point" x="100%" y="9" text-anchor="end">360</text>
+
+                    </svg>
+                    <span style="color:orange">Yaw(degree): </span> <span style="color:orange"
+                        id="value_World_Coordinate_Yaw">{{old_location.World_Coordinate_Yaw}}</span>
+                        <span style="font-style: italic;font-weight: bold; color:red">   (left: n, right: m)</span>
+
+                    <!-- <div class="btn-group positionControl">
+
+                    <form action="VirtualFranka_manipulator_0" method="POST">
+                        {% csrf_token %}
+                        <p>X(mm):</p><input type="text" name="World_Coordinate_X" /><input type="submit" />   range: (-500, 500
+                    </form> <br>
+
+                    <form action="VirtualFranka_manipulator_0" method="POST">
+                        {% csrf_token %}
+                        <p>Y(mm):</p><input type="text" name="World_Coordinate_Y" /><input type="submit" />   range: (-500, 500)
+                    </form> <br>
+
+                    <form action="VirtualFranka_manipulator_0" method="POST">
+                        {% csrf_token %}
+                        <p>Yaw(degree):</p><input type="text" name="World_Coordinate_Yaw" /><input type="submit" />   range: (0, 360)
+                    </form> <br> -->
+
+
+
+                </div>
+
+            </div>
+        </div>
+
+</body>
+<script src="{% static 'assets1/js/VirtualFranka_operation_0.js' %}"></script>
+<script>
+    var flvPlayer;
+
+    if (flvjs.isSupported()) {
+        var videoElement = document.getElementById('videoElement');
+        var flvPlayer = flvjs.createPlayer({
+            type: 'flv',
+            url: 'http://192.168.0.53:7001/live/movie.flv'    // 请直接修改这个 flv 地址即可
+        });
+        flvPlayer.attachMediaElement(videoElement);
+        flvPlayer.load();
+        // flvPlayer.play();
+    }
+    var playFLV=function(){
+        flvPlayer.play();
+    }
+
+</script>
+</html>
